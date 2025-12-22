@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Optional (common extras)
+.env
+.DS_Store
+.vscode/
