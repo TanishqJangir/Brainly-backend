@@ -14,6 +14,11 @@ app.use(express.json());
 
 const JWT_USER_SECRET = process.env.JWT_USER_SECRET;
 
+if (!JWT_USER_SECRET) {
+    throw new Error("JWT_USER_SECRET is not defined in environment variables");
+}
+
+
 app.post("/api/v1/signup", async (req, res) => {
 
 
