@@ -1,7 +1,16 @@
 import type { Request, Response,     NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-import { JWT_USER_SECRET } from "../config.js";
+import dotenv from "dotenv";
+dotenv.config();
+
+
+const JWT_USER_SECRET = process.env.JWT_USER_SECRET;
+
+if (!JWT_USER_SECRET) {
+    throw new Error("JWT_USER_SECRET is not defined in environment variables");
+}
+
 
 export const userMiddleware = (req: Request , res: Response , next : NextFunction) => {
 
