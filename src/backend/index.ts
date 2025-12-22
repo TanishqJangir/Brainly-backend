@@ -1,3 +1,6 @@
+
+import dotenv from "dotenv/config";
+
 import express from "express";
 import jwt from "jsonwebtoken";
 import { UserModel, ContentModel } from "../database/db.js";
@@ -5,8 +8,6 @@ import { hash, compare } from "bcryptjs";
 import { z } from "zod";
 import { userMiddleware } from "../middleware/userMiddleware.js";
 import crypto from "crypto";
-import dotenv from "dotenv";
-dotenv.config();
 
 const app = express();
 app.use(express.json());

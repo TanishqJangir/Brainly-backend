@@ -1,1 +1,1 @@
-{"root":["./src/config.ts","./src/types/express.d.ts","./src/backend/index.ts","./src/database/db.ts","./src/middleware/usermiddleware.ts"],"version":"5.9.3"}
+{"root":["./src/types/express.d.ts","./src/backend/index.ts","./src/database/db.ts","./src/middleware/usermiddleware.ts"],"version":"5.9.3"}
