@@ -5,12 +5,14 @@ import { hash, compare } from "bcryptjs";
 import { z } from "zod";
 import { userMiddleware } from "../middleware/userMiddleware.js";
 import crypto from "crypto";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-import { JWT_USER_SECRET } from "../config.js";
 
+const JWT_USER_SECRET = process.env.JWT_USER_SECRET;
 
 app.post("/api/v1/signup", async (req, res) => {
 
