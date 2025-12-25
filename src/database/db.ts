@@ -1,7 +1,14 @@
 import mongoose, { model, Schema } from "mongoose";
+import "dotenv/config";
 
 
-mongoose.connect("mongodb+srv://GGS:Tanishq%40123@cluster0.pkq0jts.mongodb.net/Second-Brain")
+const dbUrl = process.env.DB_URL;
+
+if (!dbUrl) {
+  throw new Error("DB_URL is not defined in environment variables");
+}
+
+mongoose.connect(dbUrl);
 
 
 const userSchema = new Schema({
@@ -17,7 +24,7 @@ const contentSchema = new Schema({
     title : String,
     link : {type : String, unique: true, required: true},
     body : String,
-    // type : {type : String, enum: contentTypes, required: true},
+    type : {type : String, enum: contentTypes, required: true},
     tags : [{type : mongoose.Types.ObjectId, ref : "Tags"}],
     userId : {
         type : mongoose.Types.ObjectId, 
