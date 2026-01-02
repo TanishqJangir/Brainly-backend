@@ -1,6 +1,5 @@
 
 import dotenv from "dotenv/config";
-
 import express from "express";
 import jwt from "jsonwebtoken";
 import { UserModel, ContentModel } from "../database/db.js";
@@ -12,8 +11,9 @@ import cors from "cors";
 
 
 const app = express();
-app.use(express.json());
 app.use(cors());
+
+app.use(express.json());
 
 
 const JWT_USER_SECRET = process.env.JWT_USER_SECRET;
@@ -27,8 +27,8 @@ app.post("/api/v1/signup", async (req, res) => {
 
 
     const signupRequiredBody = z.object({
-        username: z.string().max(10).min(3),
-        password: z.string().max(20).min(8).
+        username: z.string().max(50).min(3),
+        password: z.string().max(50).min(8).
             regex(/[a-z]/, "Password must contain at least one lowercase letter").
             regex(/[A-Z]/, "Password must contain at least one uppercase letter").
             regex(/[0-9]/, "Password must contain at least one number").
