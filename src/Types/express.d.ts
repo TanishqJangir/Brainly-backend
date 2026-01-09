@@ -1,12 +1,12 @@
-// import { Types } from "mongoose";
+import { Types } from "mongoose";
 
-// declare global {
-//   namespace Express {
-//     interface Request {
-//       userId?: string; // or Types.ObjectId
-//     }
-//   }
-// }
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: string; // or Types.ObjectId
+    }
+  }
+}
 
-// export {};
+export {};
 

@@ -54,9 +54,7 @@ app.post("/api/v1/signup", async (req, res) => {
     }
 
     try {
-
-        const existingUser = await UserModel.findOne({ username });
-
+        const existingUser = await UserModel.findOne({ username })
         if (existingUser) {
             return res.status(403).json({
                 message: "User already exist"
@@ -65,16 +63,19 @@ app.post("/api/v1/signup", async (req, res) => {
 
         const hashedPassword = await hash(password, 5);
 
+
         await UserModel.create({
             username: username,
             password: hashedPassword
         })
+
 
         res.status(200).json({
             msge: "You are signed up successfully."
         })
 
     } catch (error) {
+
         return res.status(500).json({
             message: "Some signup error occured.",
             error: error
@@ -107,6 +108,9 @@ app.post("/api/v1/signin", async (req, res) => {
     }
 
     const { username, password } = parsedDataSuccess.data;
+
+    console.log(username)
+    console.log(password)
 
     try {
         const existingUser = await UserModel.findOne({ username });
@@ -154,21 +158,22 @@ app.post("/api/v1/signin", async (req, res) => {
 app.post("/api/v1/content", userMiddleware, async (req, res) => {
 
     const contentRequiredBody = z.object({
-        title: z.string().min(5).max(20),
+        title: z.string(),
         link: z.string(),
-        body: z.string()
+        body: z.string().optional(),
+        type: z.enum(['youtube', "x", "document"])
     })
 
     const parsedDataSuccess = contentRequiredBody.safeParse(req.body);
 
     if (!parsedDataSuccess.success) {
         return res.status(411).json({
-            message: "Invalid input formate",
+            message: "Invalid input formate in the content section of backend",
             error: parsedDataSuccess.error
         })
     }
 
-    const { title, link, body} = parsedDataSuccess.data;
+    const { title, link, body, type } = parsedDataSuccess.data;
 
     try {
         const existingContent = await ContentModel.findOne({
@@ -181,14 +186,19 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
             })
         }
 
-        await ContentModel.create({
-            title: title,
-            link: link,
-            body: body,
-            //@ts-ignore
+        const contentData: any = {
+            title,
+            link,
+            type,
             userId: req.userId,
-            tags: []
-        })
+        }
+
+        if (body) {
+            contentData.body = body;
+        }
+
+        await ContentModel.create(contentData);
+
 
         return res.status(200).json({
             message: "Content added successfully"
@@ -198,10 +208,12 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
 
     }
     catch (error) {
-        res.status(500).json({
+        console.error("CONTENT CREATE ERROR:", error);
+
+        return res.status(500).json({
             message: "Some error occured in the content section.",
             error: error
-        })
+        });
     }
 
 
@@ -366,7 +378,7 @@ app.post("/api/v1/:contentId/share", userMiddleware, async (req, res) => {
         ) {
             return res.status(200).json({
                 message: 'Share link already exist',
-                shareToken : content.shareToken,
+                shareToken: content.shareToken,
                 sharelink: `http://www.secondBrain/share/${content.shareToken}`,
                 expiresAt: `the link will be expired at : ${content.shareExpiresAt}`
             })
@@ -382,9 +394,9 @@ app.post("/api/v1/:contentId/share", userMiddleware, async (req, res) => {
 
         return res.status(200).json({
             message: "Share link generated",
-            shareToken : content.shareToken,
+            shareToken: content.shareToken,
             shareLink: `http://www.secondBrain/share/${shareToken}`,
-            shareExpiresAt : content.shareExpiresAt
+            shareExpiresAt: content.shareExpiresAt
         })
 
     }
