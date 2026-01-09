@@ -109,8 +109,6 @@ app.post("/api/v1/signin", async (req, res) => {
 
     const { username, password } = parsedDataSuccess.data;
 
-    console.log(username)
-    console.log(password)
 
     try {
         const existingUser = await UserModel.findOne({ username });
@@ -331,7 +329,6 @@ app.delete("/api/v1/content/:contentId", userMiddleware, async (req, res) => {
     }
 
 })
-
 
 
 
