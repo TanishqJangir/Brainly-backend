@@ -21,7 +21,7 @@ const userSchema = new Schema({
 const contentTypes = ['youtube', 'x', 'document']; //You can extend as per your need
 
 const contentSchema = new Schema({
-    title : String,
+    title : {type: String, required: true},
     link : {type : String, unique: true, required: true},
     body : String,
     type : {type : String, enum: contentTypes, required: true},
