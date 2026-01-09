@@ -18,7 +18,7 @@ const userSchema = new Schema({
 
 
 
-const contentTypes = ['image', 'video', 'article', 'audio']; //You can extend as per your need
+const contentTypes = ['youtube', 'x', 'document']; //You can extend as per your need
 
 const contentSchema = new Schema({
     title : String,
